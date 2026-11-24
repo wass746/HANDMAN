@@ -1,0 +1,289 @@
+﻿<Window x:Class="HANDMAN.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="HANGMAN"
+        Width="950"
+        Height="680"
+        MinWidth="800"
+        MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        Background="#07101F"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+
+        <!-- Style des lettres -->
+        <Style x:Key="LetterButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="48"/>
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#145FD7"/>
+            <Setter Property="BorderBrush" Value="#50A4FF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <!-- Style du bouton Nouvelle partie -->
+        <Style x:Key="RestartButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="220"/>
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#145FD7"/>
+            <Setter Property="BorderBrush" Value="#50A4FF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid>
+
+        <!-- Barre bleue supérieure -->
+        <Border Height="7"
+                VerticalAlignment="Top"
+                Background="#145FD7"/>
+
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- En-tête -->
+            <Border Grid.Row="0"
+                    Padding="22"
+                    Background="#101C30"
+                    BorderBrush="#243B5B"
+                    BorderThickness="1"
+                    CornerRadius="14">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Logo -->
+                    <Border Grid.Column="0"
+                            Width="82"
+                            Height="82"
+                            Background="#145FD7"
+                            CornerRadius="12">
+
+                        <TextBlock Text="KX"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="White"
+                                   FontSize="34"
+                                   FontWeight="ExtraBold"/>
+                    </Border>
+
+                    <!-- Titre -->
+                    <StackPanel Grid.Column="2"
+                                VerticalAlignment="Center">
+
+                        <TextBlock Text="YAMAHA MOTOCROSS"
+                                   Foreground="#50A4FF"
+                                   FontSize="13"
+                                   FontWeight="Bold"/>
+
+                        <TextBlock Text="HANGMAN"
+                                   Margin="0,3,0,3"
+                                   Foreground="White"
+                                   FontSize="32"
+                                   FontWeight="ExtraBold"/>
+
+                        <TextBlock Text="Trouve le mot avant la sixième erreur."
+                                   Foreground="#9FB2CE"
+                                   FontSize="14"/>
+                    </StackPanel>
+
+                    <!-- Objectif -->
+                    <Border Grid.Column="3"
+                            Padding="18,12"
+                            VerticalAlignment="Center"
+                            Background="#182942"
+                            CornerRadius="9">
+
+                        <StackPanel>
+                            <TextBlock Text="OBJECTIF"
+                                       HorizontalAlignment="Center"
+                                       Foreground="#50A4FF"
+                                       FontSize="11"
+                                       FontWeight="Bold"/>
+
+                            <TextBlock Text="6 ERREURS MAX."
+                                       Margin="0,4,0,0"
+                                       Foreground="White"
+                                       FontSize="14"
+                                       FontWeight="Bold"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Zone principale -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Dessin du pendu -->
+                <Border Grid.Column="0"
+                        Padding="18"
+                        Background="#101C30"
+                        BorderBrush="#243B5B"
+                        BorderThickness="1"
+                        CornerRadius="14">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="12"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="12"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0">
+                            <TextBlock Text="ÉTAT DU PILOTE"
+                                       HorizontalAlignment="Center"
+                                       Foreground="#50A4FF"
+                                       FontSize="13"
+                                       FontWeight="Bold"/>
+
+                            <TextBlock Text="Reste concentré sur la piste"
+                                       Margin="0,4,0,0"
+                                       HorizontalAlignment="Center"
+                                       Foreground="#9FB2CE"
+                                       FontSize="12"/>
+                        </StackPanel>
+
+                        <Border Grid.Row="2"
+                                Background="#080F1C"
+                                BorderBrush="#243B5B"
+                                BorderThickness="1"
+                                CornerRadius="10">
+
+                            <Canvas x:Name="HangmanCanvas"
+                                    Width="230"
+                                    Height="285"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Background="Transparent"/>
+                        </Border>
+
+                        <Border Grid.Row="4"
+                                Padding="10"
+                                Background="#182942"
+                                CornerRadius="8">
+
+                            <TextBlock x:Name="ErrorText"
+                                       Text="Erreurs : 0 / 6"
+                                       HorizontalAlignment="Center"
+                                       Foreground="White"
+                                       FontSize="15"
+                                       FontWeight="Bold"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Mot et clavier -->
+                <Border Grid.Column="2"
+                        Padding="25"
+                        Background="#101C30"
+                        BorderBrush="#243B5B"
+                        BorderThickness="1"
+                        CornerRadius="14">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Indice -->
+                        <Border Grid.Row="0"
+                                Padding="15"
+                                Background="#182942"
+                                CornerRadius="9">
+
+                            <StackPanel>
+                                <TextBlock Text="INDICE"
+                                           HorizontalAlignment="Center"
+                                           Foreground="#50A4FF"
+                                           FontSize="12"
+                                           FontWeight="Bold"/>
+
+                                <TextBlock x:Name="HintText"
+                                           Margin="0,7,0,0"
+                                           HorizontalAlignment="Center"
+                                           Foreground="#C2D0E5"
+                                           FontSize="15"
+                                           TextAlignment="Center"
+                                           TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Mot caché -->
+                        <TextBlock x:Name="WordText"
+                                   Grid.Row="2"
+                                   MinHeight="70"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="White"
+                                   FontFamily="Consolas"
+                                   FontSize="36"
+                                   FontWeight="Bold"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap"/>
+
+                        <!-- Résultat -->
+                        <TextBlock x:Name="MessageText"
+                                   Grid.Row="3"
+                                   Height="35"
+                                   HorizontalAlignment="Center"
+                                   Foreground="#50A4FF"
+                                   FontSize="17"
+                                   FontWeight="Bold"
+                                   TextAlignment="Center"/>
+
+                        <!-- Clavier créé par le code C# -->
+                        <ScrollViewer Grid.Row="5"
+                                      VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled">
+
+                            <WrapPanel x:Name="KeyboardPanel"
+                                       MaxWidth="570"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Nouvelle partie -->
+            <Button Grid.Row="4"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource RestartButtonStyle}"
+                    Content="NOUVELLE PARTIE"
+                    Click="RestartButton_Click"/>
+        </Grid>
+    </Grid>
+</Window>
